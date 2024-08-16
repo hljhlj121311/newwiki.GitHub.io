@@ -27,6 +27,7 @@
         .search-bar {
             margin: 20px 0;
             text-align: center;
+            position: relative;
         }
         .search-bar input {
             width: 50%;
@@ -76,20 +77,47 @@
             padding: 20px;
             background-color: #f8f9fa;
         }
+        #search-results {
+            position: absolute;
+            top: 100%;
+            left: 25%;
+            width: 50%;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+        }
+        #search-results a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+        #search-results a:hover {
+            background-color: #f0f0f0;
+        }
+        #search-results .no-result {
+            padding: 10px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-<img src="https://minecraft.wiki/images/Cyan_Axolotl_JE2.gif?7db23&format=original" alt="十二班教师">
+            <img src="https://minecraft.wiki/images/Cyan_Axolotl_JE2.gif?7db23&format=original" alt="十二班教师">
             <div class="logo">十二班百科</div>
             <p>一个专注于初二十二班相关事务的百科全书</p>
         </header>
 
         <div class="search-bar">
-            <input type="text" placeholder="暂未开通功能">
-            <button>搜索</button>
+            <input type="text" id="search-input" placeholder="搜索条目">
+            <div id="search-results"></div>
         </div>
+
         <div class="main-content">
             <div class="section">
                 <h2>特色条目</h2>
@@ -97,7 +125,9 @@
             </div>
             <div class="section">
                 <h2>页面上新</h2>
+<p>我们还在不断更新中，更多页面敬请期待。<a href="https://wiki-github-io.pages.dev/" target="_blank">点击</a>访问完整现有内容列表</p>
                 <ul>
+                    <li><a href="https://liuzhe.pages.dev/" target="_blank">刘</a>(教师）</li>
                     <li><a href="https://penny-github-io-7sf.pages.dev/" target="_blank">彭</a>(教师)</li>
                     <li><a href="https://shierban-github-io.pages.dev/" target="_blank">十二班</a>(班集体)</li>
                 </ul>
@@ -110,18 +140,56 @@
                     <li>马上就来</li>
                 </ul>
             </div>
-            <div class="section">
-                <h2>特色图片</h2>
-            <img src="https://s2.loli.net/2024/08/15/G6MnJL4dXg2Qtz7.jpg" alt="1">
-        </div>
-            </div>
-
         </div>
     </div>
 
     <footer>
         <p>本站内容采用CC BY-SA 3.0协议授权</p>
-        <p>维基百科和维基百科标志是维基媒体基金会的注册商标</p>
+        <p>班级百科标志是源于minecraftwiki的图像版权为其所有</p>
     </footer>
+
+    <script>
+        const pages = [
+            { title: "彭（教师）", url: "https://penny-github-io-7sf.pages.dev/" },
+            { title: "十二班", url: "https://shierban-github-io.pages.dev/" },
+            { title: "刘（教师）", url: "https://liuzhe.pages.dev/" },
+        ];
+
+        const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            searchResults.innerHTML = '';
+
+            if (searchTerm.length > 0) {
+                const matchedPages = pages.filter(page => page.title.toLowerCase().includes(searchTerm));
+
+                if (matchedPages.length > 0) {
+                    matchedPages.forEach(page => {
+                        const link = document.createElement('a');
+                        link.href = page.url;
+                        link.textContent = page.title;
+                        link.target = "_blank";
+                        searchResults.appendChild(link);
+                    });
+                } else {
+                    const noResult = document.createElement('div');
+                    noResult.className = 'no-result';
+                    noResult.textContent = "无相关条目，试试其他的关键词";
+                    searchResults.appendChild(noResult);
+                }
+
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function(e) {
+            if (e.target !== searchInput && e.target !== searchResults) {
+                searchResults.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
