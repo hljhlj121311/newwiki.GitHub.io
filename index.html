@@ -134,9 +134,9 @@
             </div>
             <div class="section">
                 <h2>维基镜像</h2>
-<p>维基镜像是将维基百科部分页面复制的项目，针对中国大陆无法了解到的内容。因完整条目过长部分条目只截取部分内容。查看所有<a href="暂无" target="_blank">维基备份</a>最新条目：</p>
+<p>维基镜像是将维基百科部分页面复制的项目，针对中国大陆无法了解到的内容。因完整条目过长部分条目只截取部分内容。查看所有<a href="https://wikih.pages.dev/" target="_blank">维基备份</a>。最新条目：</p>
                 <ul>
-                    <li>还在等待</li>
+                    <li><a href="https://gfw-1ew.pages.dev//" target="_blank">中国网络长城</a></li>
                 </ul>
             </div>
         </div>
@@ -149,9 +149,9 @@
 
     <script>
         const pages = [
-            { title: "彭（教师）", url: "https://penny-github-io-7sf.pages.dev/" },
-            { title: "十二班", url: "https://shierban-github-io.pages.dev/" },
-            { title: "刘（教师）", url: "https://liuzhe.pages.dev/" },
+            { title: "彭（教师）", pinyin:"pengjiaoshi", url: "https://penny-github-io-7sf.pages.dev/" },
+            { title: "十二班", pinyin:"shierban", url: "https://shierban-github-io.pages.dev/" },
+            { title: "刘（教师）", pinyin:"liujiaoshi", url: "https://liuzhe.pages.dev/" },
         ];
 
         const searchInput = document.getElementById('search-input');
@@ -162,7 +162,10 @@
             searchResults.innerHTML = '';
 
             if (searchTerm.length > 0) {
-                const matchedPages = pages.filter(page => page.title.toLowerCase().includes(searchTerm));
+const matchedPages = pages.filter(page => 
+    page.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+    page.pinyin.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
                 if (matchedPages.length > 0) {
                     matchedPages.forEach(page => {
@@ -175,7 +178,7 @@
                 } else {
                     const noResult = document.createElement('div');
                     noResult.className = 'no-result';
-                    noResult.textContent = "无相关条目，试试其他的关键词";
+                    noResult.textContent = "无相关条目，请试试另外的关键词";
                     searchResults.appendChild(noResult);
                 }
 
